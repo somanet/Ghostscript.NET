@@ -341,27 +341,27 @@ namespace Ghostscript.NET.Viewer
             {
                 case ".pdf":
                     {
-                        _formatHandler = new GhostscriptViewerPdfFormatHandler(this);
+                        _formatHandler = new GhostscriptViewerPdfFormatHandler(_interpreter);
                         break;
                     }
                 case ".ps":
                     {
-                        _formatHandler = new GhostscriptViewerPsFormatHandler(this);
+                        _formatHandler = new GhostscriptViewerPsFormatHandler(_interpreter);
                         break;
                     }
                 case ".eps":
                     {
-                        _formatHandler = new GhostscriptViewerEpsFormatHandler(this);
+                        _formatHandler = new GhostscriptViewerEpsFormatHandler(_interpreter, this.EPSClip);
                         break;
                     }
                 default:
                     {
-                        _formatHandler = new GhostscriptViewerDefaultFormatHandler(this);
+                        _formatHandler = new GhostscriptViewerDefaultFormatHandler(_interpreter);
                         break;
                     }
             }
 
-            _interpreter.Setup(new GhostscriptViewerStdIOHandler(this, _formatHandler), new GhostscriptViewerDisplayHandler(this));
+            _interpreter.Setup(new GhostscriptViewerStdIOHandler(_stdIoCallback, _formatHandler), new GhostscriptViewerDisplayHandler(this));
 
             List<string> args = new List<string>();
             args.Add("-gsnet");
@@ -713,43 +713,6 @@ namespace Ghostscript.NET.Viewer
 
         #region Internal methods
 
-        #region StdInput
-
-        internal void StdInput(out string input, int count)
-        {
-            input = null;
-
-            if (_stdIoCallback != null)
-            {
-                _stdIoCallback.StdIn(out input, count);
-            }
-        }
-
-        #endregion
-
-        #region StdOutput
-
-        internal void StdOutput(string message)
-        {
-            if (_stdIoCallback != null)
-            {
-                _stdIoCallback.StdOut(message);
-            }
-        }
-
-        #endregion
-
-        #region StdError
-
-        internal void StdError(string message)
-        {
-            if (_stdIoCallback != null)
-            {
-                _stdIoCallback.StdError(message);
-            }
-        }
-
-        #endregion
 
         #region RaiseDisplaySize
 

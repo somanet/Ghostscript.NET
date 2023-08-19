@@ -24,6 +24,8 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Ghostscript.NET.Interpreter;
+
 using System;
 using System.Drawing;
 
@@ -35,7 +37,7 @@ namespace Ghostscript.NET.Viewer
         #region Private variables
 
         private bool _disposed = false;
-        private GhostscriptViewer _viewer = null;
+        private GhostscriptInterpreter _interpreter = null;
         private int _firstPageNumber;
         private int _lastPageNumber;
         private int _currentPageNumber = 1;
@@ -49,9 +51,9 @@ namespace Ghostscript.NET.Viewer
 
         #region Constructor
 
-        public GhostscriptViewerFormatHandler(GhostscriptViewer viewer)
+        public GhostscriptViewerFormatHandler(GhostscriptInterpreter interpreter)
         {
-            _viewer = viewer;
+            _interpreter = interpreter;
         }
 
         #endregion
@@ -112,7 +114,7 @@ namespace Ghostscript.NET.Viewer
 
         public int Execute(string str)
         {
-            return _viewer.Interpreter.Run(str);
+            return _interpreter.Run(str);
         }
 
         #endregion
@@ -121,17 +123,13 @@ namespace Ghostscript.NET.Viewer
 
         internal int Execute(IntPtr str)
         {
-            return _viewer.Interpreter.Run(str);
+            return _interpreter.Run(str);
         }
 
         #endregion
 
         #region Viewer
 
-        public GhostscriptViewer Viewer
-        {
-            get { return _viewer; }
-        }
 
         #endregion
 

@@ -45,7 +45,8 @@ namespace Ghostscript.NET.Viewer
 
         public override void StdIn(out string input, int count)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            input = string.Empty;
         }
 
         public override void StdOut(string output)

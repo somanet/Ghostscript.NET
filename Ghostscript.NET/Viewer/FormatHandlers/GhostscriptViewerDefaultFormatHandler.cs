@@ -26,6 +26,8 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Ghostscript.NET.Interpreter;
+
 using System;
 using System.Drawing;
 
@@ -36,7 +38,7 @@ namespace Ghostscript.NET.Viewer
 
         #region Constructor
 
-        public GhostscriptViewerDefaultFormatHandler(GhostscriptViewer viewer) : base(viewer) { }
+        public GhostscriptViewerDefaultFormatHandler(GhostscriptInterpreter interpreter) : base(interpreter) { }
 
         #endregion
 

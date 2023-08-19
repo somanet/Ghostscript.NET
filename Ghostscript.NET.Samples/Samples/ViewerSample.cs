@@ -128,7 +128,7 @@ namespace Ghostscript.NET.Samples
             // get current page number
             int cpn = _viewer.CurrentPageNumber;
             // gets or sets eps clip on or off
-            bool epsClip = _viewer.EPSClip;
+            //bool epsClip = _viewer.EPSClip;
             // gets or sets graphics aplha bits
             int gab = _viewer.GraphicsAlphaBits;
             // gets or sets text aplha bits

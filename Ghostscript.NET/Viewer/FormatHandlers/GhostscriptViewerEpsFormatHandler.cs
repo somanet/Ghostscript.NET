@@ -28,6 +28,8 @@
 
 using System;
 using System.IO;
+
+using Ghostscript.NET.Interpreter;
 using Ghostscript.NET.Viewer.DSC;
 
 namespace Ghostscript.NET.Viewer
@@ -38,11 +40,16 @@ namespace Ghostscript.NET.Viewer
 
         private string _content;
 
+        private readonly bool _isEpsClip;
+
         #endregion
 
         #region Constructor
 
-        public GhostscriptViewerEpsFormatHandler(GhostscriptViewer viewer) : base(viewer) { }
+        public GhostscriptViewerEpsFormatHandler(GhostscriptInterpreter interpreter, bool isEpsClip) : base(interpreter)
+        {
+            _isEpsClip = isEpsClip;
+        }
 
         #endregion
 
@@ -75,7 +82,7 @@ namespace Ghostscript.NET.Viewer
                 _content = _content.Substring(0, i + 5);
             }
 
-            if (this.Viewer.EPSClip)
+            if (_isEpsClip)
             {
                 unsafe
                 {

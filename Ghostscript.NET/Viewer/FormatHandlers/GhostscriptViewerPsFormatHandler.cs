@@ -32,6 +32,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using Ghostscript.NET.Viewer.DSC;
+using Ghostscript.NET.Interpreter;
 
 namespace Ghostscript.NET.Viewer
 {
@@ -58,7 +59,7 @@ namespace Ghostscript.NET.Viewer
 
         #region Constructor
 
-        public GhostscriptViewerPsFormatHandler(GhostscriptViewer viewer) : base(viewer) { }
+        public GhostscriptViewerPsFormatHandler(GhostscriptInterpreter interpreter) : base(interpreter) { }
 
         #endregion
 

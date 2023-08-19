@@ -26,6 +26,8 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Ghostscript.NET.Interpreter;
+
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -45,11 +47,16 @@ namespace Ghostscript.NET.Viewer
         private const string PDF_DONE_TAG = "%GSNET_VIEWER_PDF_DONE: ";
         private const string PDF_MARK_TAG = "%GSNET_VIEWER_PDF_MARK: ";
 
+        private readonly int _gsLibraryRevision;
+
         #endregion
 
         #region Constructor
 
-        public GhostscriptViewerPdfFormatHandler(GhostscriptViewer viewer) : base(viewer) { }
+        public GhostscriptViewerPdfFormatHandler(GhostscriptInterpreter interpreter) : base(interpreter) 
+        {
+            _gsLibraryRevision = interpreter.LibraryRevision;
+        }
 
         #endregion
 
@@ -82,7 +89,7 @@ namespace Ghostscript.NET.Viewer
                     /DSCPageCount 0 def
                 ");
 
-            if (this.Viewer.Interpreter.LibraryRevision < 927)
+            if (_gsLibraryRevision < 927)
             {
                 // this should be executed only for gs versions below 9.27
 

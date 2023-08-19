@@ -29,12 +29,15 @@ using System.Text;
 
 namespace Ghostscript.NET.Viewer
 {
+    /// <summary>
+    /// StdIOHandeler. inspired by Decorator Pattern
+    /// </summary>
     internal class GhostscriptViewerStdIOHandler : GhostscriptStdIO
     {
 
         #region Private variables
 
-        private GhostscriptViewer _viewer;
+        private GhostscriptStdIO _stdIO;
         private GhostscriptViewerFormatHandler _formatHandler;
         private StringBuilder _outputMessages = new StringBuilder();
         private StringBuilder _errorMessages = new StringBuilder();
@@ -43,9 +46,9 @@ namespace Ghostscript.NET.Viewer
 
         #region Constructor
 
-        public GhostscriptViewerStdIOHandler(GhostscriptViewer viewer, GhostscriptViewerFormatHandler formatHandler) : base(true, true, true)
+        public GhostscriptViewerStdIOHandler(GhostscriptStdIO stdIO, GhostscriptViewerFormatHandler formatHandler) : base(true, true, true)
         {
-            _viewer = viewer;
+            _stdIO = stdIO;
             _formatHandler = formatHandler;
         }
 
@@ -57,10 +60,9 @@ namespace Ghostscript.NET.Viewer
         {
             input = string.Empty;
 
-            if (_formatHandler != null)
-            {
-                _formatHandler.StdInput(out input, count);
-            }
+            _stdIO?.StdIn(out input, count);
+
+            _formatHandler?.StdInput(out input, count);
         }
 
         #endregion
@@ -80,12 +82,9 @@ namespace Ghostscript.NET.Viewer
                     string line = _outputMessages.ToString().Substring(0, rIndex);
                     _outputMessages = _outputMessages.Remove(0, rIndex + 2);
 
-                    _viewer.StdOutput(line);
+                    _stdIO?.StdOut(line);
 
-                    if (_formatHandler != null)
-                    {
-                        _formatHandler.StdOutput(line);
-                    }
+                    _formatHandler?.StdOutput(line);
 
                     rIndex = _outputMessages.ToString().IndexOf("\r\n");
                 }
@@ -109,12 +108,9 @@ namespace Ghostscript.NET.Viewer
                     string line = _errorMessages.ToString().Substring(0, rIndex);
                     _errorMessages = _errorMessages.Remove(0, rIndex + 2);
 
-                    _viewer.StdError(line);
+                    _stdIO?.StdError(line);
 
-                    if (_formatHandler != null)
-                    {
-                        _formatHandler.StdError(line);
-                    }
+                    _formatHandler?.StdError(line);
 
                     rIndex = _errorMessages.ToString().IndexOf("\r\n");
                 }
